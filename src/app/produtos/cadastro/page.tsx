@@ -1,14 +1,16 @@
 'use client'
-import FormularioProduto from '@/app/components/FormularioProduto';
-import NavBar from '@/app/components/Navbar';
-import {withAuth} from '@/app/components/withAuth';
+import FormularioProduto from "@/app/components/FormularioProduto";
+import NavBar from "@/app/components/Navbar";
 
-function PaginaCadastro(){
-    return(
-        <section>
-            <NavBar texto="Cadastro de Produto" />
-            <FormularioProduto />
-        </section>
-    );
+import { withAuth } from "@/app/components/withAuth";
+
+function PaginaCadastro() {
+  return (
+    <section>
+      <NavBar texto="Cadastro de Produto" />
+      <FormularioProduto />
+    </section>
+  );
 }
+
 export default withAuth(PaginaCadastro);
