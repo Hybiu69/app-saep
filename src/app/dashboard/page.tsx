@@ -25,5 +25,4 @@ function Dashboard() {
     )
 }
 
-// Protege a página do Dashboard com o HOC de autenticação
 export default withAuth(Dashboard);
