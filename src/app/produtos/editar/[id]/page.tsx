@@ -1,7 +1,8 @@
 'use client'
 
 import FormularioProduto from '@/app/components/FormularioProduto';
-import NavBar from '@/app/components/Navbar';
+import NavBar from '@/app/components/navbar';
+
 import { withAuth } from '@/app/components/withAuth';
 
 function PaginaEdicao({ params }: { params: { id: string } }) {

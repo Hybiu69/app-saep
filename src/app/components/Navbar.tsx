@@ -17,6 +17,7 @@ export default function NavBar({ texto }: {texto:string}) {
             <ul className='flex gap-3 items-center'>
                 <li><a href="/dashboard">Dashboard</a></li>
                 <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/estoque">Estoque</a></li>
             </ul>
             <button
                 onClick={handleLogout}

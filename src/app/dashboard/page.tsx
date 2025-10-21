@@ -3,7 +3,7 @@
 import { withAuth } from '@/app/components/withAuth';
 
 import { useState, useEffect } from 'react';
-import NavBar from '../components/Navbar';
+import NavBar from '../components/navbar';
 
 function Dashboard() {
     const [userName, setUserName] = useState('');
