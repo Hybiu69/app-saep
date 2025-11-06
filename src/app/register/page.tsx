@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRegister } from "@/app/hooks/useRegister";
 
@@ -7,50 +8,92 @@ export default function Register() {
   const { form, handleChange, handleRegister } = useRegister();
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Crie sua conta</h1>
-      <form onSubmit={handleRegister} style={{ marginTop: "20px" }}>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Nome Completo"
-            value={form.name}
-            onChange={handleChange}
-            className="border p-2 rounded w-64 text-black"
-          />
+    <div className="flex h-screen bg-white text-gray-800">
+      <div className="hidden lg:flex w-1/2 relative items-end justify-center">
+        <Image
+          src="/images/palmeiras.png"
+          alt="Praça e palmeiras em Itapetininga"
+          fill
+          className="object-cover brightness-90"
+          priority
+        />
+      </div>
+
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8">
+        <div className="w-full max-w-sm">
+          <h2 className="text-3xl font-semibold text-center text-[#172550] mb-8">
+            Cadastro
+          </h2>
+
+          <form onSubmit={handleRegister} className="space-y-6">
+            <div>
+              <label className="block text-[#31437a] font-semibold mb-1">
+                Nome
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Digite seu nome aqui"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#3a4fac]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[#31437a] font-semibold mb-1">
+                Usuário
+              </label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Digite seu usuário aqui"
+                value={form.username}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#222b67]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[#222b67] font-semibold mb-1">
+                Senha
+              </label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Digite sua senha aqui"
+                value={form.password}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#3a4fac]"
+              />
+            </div>
+
+            <div className="text-center text-sm">
+              <Link href="/" className="text-[#3a4fac] hover:underline">
+                Já possui um LOGIN? Entre agora!
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#636cc0] hover:bg-[#3a4fac] text-white font-semibold py-3 rounded-xl shadow-md transition"
+            >
+              CADASTRAR
+            </button>
+          </form>
+
+          <div className="flex items-center justify-center mt-12 space-x-2 text-[#3a4fac]">
+            <div className="flex items-center justify-center text-white text-sm">
+              <Image src="/images/logo.png" alt="logo" width={40} height={40} />
+            </div>
+            <span
+              className="text-4xl"
+              style={{ fontFamily: "var(--font-logo)" }}
+            >
+              E.V.A
+            </span>
+          </div>
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Usuário"
-            value={form.username}
-            onChange={handleChange}
-            className="border p-2 rounded w-64 text-black"
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="password"
-            name="password"
-            placeholder="Senha"
-            value={form.password}
-            onChange={handleChange}
-            className="border p-2 rounded w-64 text-black"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-green-600 text-white rounded cursor-pointer hover:bg-green-500 px-6 py-2"
-        >
-          Cadastrar
-        </button>
-      </form>
-      <div style={{ marginTop: "20px" }}>
-        <Link href="/" className="text-blue-500 hover:underline">
-          Já tem uma conta? Faça o login
-        </Link>
       </div>
     </div>
   );

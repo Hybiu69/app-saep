@@ -1,13 +1,14 @@
 'use client'
-import FormularioEstoque from "@/app/components/FormularioEstoque";
+import FormularioPostagem from "@/app/components/FormularioPostagem";
 import NavBar from "@/app/components/navbar";
+
 import { withAuth } from "@/app/components/withAuth";
 
 function PaginaCadastro() {
   return (
     <section>
-      <NavBar texto="Movimentação de estoque" />
-      <FormularioEstoque />
+      <NavBar/>
+      <FormularioPostagem/>
     </section>
   );
 }

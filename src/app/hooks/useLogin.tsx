@@ -20,7 +20,7 @@ export function useLogin() {
         .then(response => {
             localStorage.setItem('logged', 'true');
             localStorage.setItem('userName', response.data.name);
-            router.push('/dashboard');
+            router.push('/homepage');
         })
         .catch(() => Swal.fire('Erro', 'Usuário ou senha incorretos!', 'error'));
     };
