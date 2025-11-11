@@ -36,7 +36,7 @@ export function usePostagens() {
   };
 
   const handleAdd = () => router.push('/postagens/cadastro'); 
-  const handleEdit = (id: number) => router.push(`/postagens/editar${id}`);
+  const handleEdit = (id: number) => router.push(`/postagens/editar/${id}`);
 
   return { postagens, handleDelete, handleAdd, handleEdit };
 }

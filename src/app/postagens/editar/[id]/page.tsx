@@ -8,7 +8,6 @@ function PaginaEdicao({ params }: { params: { id: string } }) {
  
   return (
     <section className='h-screen'>
-      <NavBar/>
       <FormularioPostagem id={params.id} />
     </section>
   );
