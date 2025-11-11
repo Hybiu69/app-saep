@@ -7,7 +7,6 @@ import { withAuth } from "@/app/components/withAuth";
 function PaginaCadastro() {
   return (
     <section>
-      <NavBar/>
       <FormularioPostagem/>
     </section>
   );

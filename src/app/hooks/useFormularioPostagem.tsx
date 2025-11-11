@@ -58,7 +58,7 @@ export function useFormularioPostagem(id?: string) {
           return Swal.fire('Sucesso', successMessage, 'success');
         })
         .then(() => {
-          router.push('/postagens/');
+          router.push('/homepage');
         })
         .catch((error) => {
           console.error("Falha ao salvar a postagem:", error);

@@ -27,7 +27,7 @@ export default function NavbarScroll() {
     >
       <div className="flex items-center justify-evenly px-6">
         <div className=" flex text-xl font-bold text-[#3a4fac] cursor-pointer">
-          <Image src="/images/logo.png" alt="logo" width={45} height={45} />
+          <Image className="w-auto" src="/images/logo.png" alt="logo" width={45} height={45} />
           <h1
             style={{ fontFamily: "var(--font-logo)" }}
             className="text-[#3a4fac] font-normal text-4xl"
