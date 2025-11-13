@@ -32,44 +32,14 @@ export default function FormularioPostagem({ id }: { id?: string }) {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="numero" className="block font-medium">
-            Número
-          </label>
-          <input
-            type="number"
-            name="numero"
-            id="numero"
-            value={form.numero}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded mt-1"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="rua" className="block font-medium">
-            Rua
+          <label htmlFor="endereco" className="block font-medium">
+            Endereço
           </label>
           <input
             type="text"
-            name="rua"
-            id="rua"
-            value={form.rua}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded mt-1"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="bairro" className="block font-medium">
-            Bairro
-          </label>
-          <input
-            type="text"
-            name="bairro"
-            id="bairro"
-            value={form.bairro}
+            name="endereco"
+            id="endereco"
+            value={form.endereco}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded mt-1"
@@ -95,7 +65,8 @@ export default function FormularioPostagem({ id }: { id?: string }) {
           <label htmlFor="descricao" className="block font-medium">
             Descrição
           </label>
-          <textarea
+          <input
+            type="text"
             name="descricao"
             id="descricao"
             value={form.descricao}
@@ -105,6 +76,19 @@ export default function FormularioPostagem({ id }: { id?: string }) {
           />
         </div>
 
+        <div className="mb-4">
+          <label htmlFor="conteudo" className="block font-medium">
+            Conteúdo
+          </label>
+          <textarea
+            name="conteudo"
+            id="conteudo"
+            value={form.conteudo}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded mt-1"
+          />
+        </div>
 
         <div className="flex justify-end gap-4">
           <button

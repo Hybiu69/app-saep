@@ -48,9 +48,11 @@ export default function NavbarScroll() {
           </Link>
         </ul>
 
+        <Link href="/">
         <button className="px-4 py-2 rounded-lg bg-[#3a4fac] text-white hover:bg-blue-600 transition">
           Entrar
         </button>
+        </Link>
       </div>
     </motion.nav>
   );
