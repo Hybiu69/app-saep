@@ -26,7 +26,7 @@ export default function NavbarScroll() {
       className="fixed top-0 left-0 w-full py-4 z-50 transition-all "
     >
       <div className="flex items-center justify-evenly px-6">
-        <div className=" flex text-xl font-bold text-[#3a4fac] cursor-pointer">
+          <Link href='/homepage' className=" flex text-xl font-bold text-[#3a4fac] cursor-pointer">
           <Image className="w-auto" src="/images/logo.png" alt="logo" width={45} height={45} />
           <h1
             style={{ fontFamily: "var(--font-logo)" }}
@@ -34,17 +34,16 @@ export default function NavbarScroll() {
           >
             E.V.A
           </h1>
-        </div>
-
+          </Link>
         <ul className="hidden md:flex gap-8 text-xl font-medium text-[#3a4fac] mx-auto">
           <Link href="#explorar" className="hover:text-blue-600 transition">
             Explorar
           </Link>
-          <Link href="#sobre" className="hover:text-blue-600 transition">
+          <Link href="/homepage#avaliacoes"  className="hover:text-blue-600 transition">
             Avaliações
           </Link>
-          <Link href="#populares" className="hover:text-blue-600 transition">
-            Populares
+          <Link href="#categorias" className="hover:text-blue-600 transition">
+            Categorias
           </Link>
         </ul>
 

@@ -3,11 +3,37 @@
 import Navbar from "../components/navbar";
 import { usePostagens } from "../hooks/usePostagem";
 import CarouselLugares from "../components/CarouselLugares";
+import { useEffect, useState } from "react";
+import CarouselComentarios from "../components/CarouselComentarios";
+
+type Comentario = {
+  id: string;
+  text: string;
+  rating: number;
+  date: string;
+};
 
 export default function HomePage() {
-  const { postagens, handleDelete, handleEdit } = usePostagens();
+  const { postagens } = usePostagens();
+  const [comentarios, setComentarios] = useState<Comentario[]>([]);
+
+  useEffect(() => {
+    // Carregar todos os comentários do localStorage
+    const allKeys = Object.keys(localStorage).filter((key) =>
+      key.startsWith("comments-")
+    );
+    const allComments: Comentario[] = [];
+    allKeys.forEach((key) => {
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        allComments.push(...JSON.parse(stored));
+      }
+    });
+    setComentarios(allComments);
+  }, []);
 
   return (
+    
     <main className="min-h-screen flex flex-col">
       <Navbar />
 
@@ -25,21 +51,29 @@ export default function HomePage() {
           </p>
         </div>
       </section>
-      <div className=" relative z-0 w-full flex flex-col items-center rounded-[50px] bg-white mt-15">
+      <div className=" relative z-0 w-full flex flex-col p-10 items-center rounded-[50px] bg-white mt-15">
         <h2
-          className="text-3xl md:text-4xl font-bold text-left text-[#31437A] mb-8"
+          className="text-3xl md:text-4xl font-bold text-[#31437A]"
           id="populares"
         >
-          Melhores Avaliados
+          Mais Visitados
         </h2>
 
         <CarouselLugares lugares={postagens} />
       </div>
 
       <div
-        className="-mt-[50px] h-[60dvh] bg-cover flex items-center justify-center"
+        className="-mt-[50px] h-[100dvh] bg-cover flex items-center justify-center"
         style={{ backgroundImage: "url('/images/piquinique.jpg')" }}
       ></div>
+
+      <div className=" -mt-[50px] flex flex-col w-full bg-[#9EC0CD] p-10 rounded-t-[50px]" id="avaliacoes">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-[#172550] mb-6 p-5">
+          Principais Comentários
+        </h2>
+
+        <CarouselComentarios comentarios={comentarios} />
+      </div>
     </main>
   );
 }

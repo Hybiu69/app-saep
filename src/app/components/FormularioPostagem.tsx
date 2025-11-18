@@ -62,6 +62,51 @@ export default function FormularioPostagem({ id }: { id?: string }) {
         </div>
 
         <div className="mb-4">
+          <label htmlFor="url1" className="block font-medium">
+            URL 1
+          </label>
+          <input
+            type="url1"
+            name="url1"
+            id="url1"
+            value={form.url1}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded mt-1"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="url2" className="block font-medium">
+            URL 2
+          </label>
+          <input
+            type="url2"
+            name="url2"
+            id="url2"
+            value={form.url2}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded mt-1"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="url3" className="block font-medium">
+            URL 3
+          </label>
+          <input
+            type="url3"
+            name="url3"
+            id="url3"
+            value={form.url3}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded mt-1"
+          />
+        </div>
+
+        <div className="mb-4">
           <label htmlFor="descricao" className="block font-medium">
             Descrição
           </label>
@@ -84,6 +129,21 @@ export default function FormularioPostagem({ id }: { id?: string }) {
             name="conteudo"
             id="conteudo"
             value={form.conteudo}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded mt-1"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="categoria" className="block font-medium">
+            Categoria
+          </label>
+          <input
+            type="text"
+            name="categoria"
+            id="categoria"
+            value={form.categoria}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded mt-1"
