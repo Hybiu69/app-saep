@@ -58,10 +58,10 @@ export default function HomePage() {
         <CarouselLugares lugares={postagens} />
       </div>
       <div
-        className="relative h-[100dvh] bg-cover bg-center"
+        className="relative h-[110dvh] bg-cover bg-center"
         style={{ backgroundImage: "url('/images/piquinique.jpg')" }}
       >
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       <div className=" flex flex-col w-full bg-[#9EC0CD] p-10">
