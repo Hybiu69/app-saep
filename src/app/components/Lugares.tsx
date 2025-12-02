@@ -31,7 +31,7 @@ export default function Lugares({ postagens = [] }: Props) {
   return (
     <div className="w-full bg-white flex flex-col items-center p-15">
       <h2 className="text-2xl md:text-3xl font-semibold text-[#172550] mb-6">
-        Categorias
+        Lugares
       </h2>
 
       <div className="flex gap-12 text-lg text-[#31437A] font-medium border-b border-gray-500 pb-4">

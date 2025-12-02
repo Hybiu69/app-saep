@@ -64,8 +64,8 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      <div className=" flex flex-col w-full bg-[#9EC0CD] p-10">
-        <h2 className="text-3xl md:text-3xl font-semibold text-center text-[#172550] p-5">
+      <div className=" flex flex-col w-full bg-[#9EC0CD] p-10" id="avaliacoes">
+        <h2 className="text-3xl md:text-3xl font-semibold text-center text-[#172550] p-5 ">
           Principais Comentários
         </h2>
         <CarouselComentarios comentarios={comentarios} />
