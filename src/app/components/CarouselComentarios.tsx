@@ -25,7 +25,6 @@ export default function CarouselComentarios({ comentarios }: CarouselComentarios
 
   const total = comentarios.length;
 
-  // Pega os comentários visíveis (até 4 por vez)
   const getVisible = () => {
     const items: Comentario[] = [];
     for (let i = 0; i < Math.min(4, total); i++) {

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +6,12 @@ import { useRegister } from "@/app/hooks/useRegister";
 
 export default function Register() {
   const { form, handleChange, handleRegister } = useRegister();
+
+  const inputFields = [
+    { label: "Nome", name: "name", placeholder: "Digite seu nome aqui" },
+    { label: "Usuário", name: "username", placeholder: "Digite seu usuário aqui" },
+    { label: "Senha", name: "password", placeholder: "Digite sua senha aqui", type: "password" }
+  ];
 
   return (
     <div className="flex h-screen bg-white text-gray-800">
@@ -26,47 +32,21 @@ export default function Register() {
           </h2>
 
           <form onSubmit={handleRegister} className="space-y-6">
-            <div>
-              <label className="block text-[#31437a] font-semibold mb-1">
-                Nome
-              </label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Digite seu nome aqui"
-                value={form.name}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#3a4fac]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[#31437a] font-semibold mb-1">
-                Usuário
-              </label>
-              <input
-                type="text"
-                name="username"
-                placeholder="Digite seu usuário aqui"
-                value={form.username}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#222b67]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[#222b67] font-semibold mb-1">
-                Senha
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Digite sua senha aqui"
-                value={form.password}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#3a4fac]"
-              />
-            </div>
+            {inputFields.map(({ label, name, placeholder, type = "text" }) => (
+              <div key={name}>
+                <label className="block text-[#31437a] font-semibold mb-1">
+                  {label}
+                </label>
+                <input
+                  type={type}
+                  name={name}
+                  placeholder={placeholder}
+                  value={form[name as keyof typeof form]}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:outline-none shadow-sm focus:ring-2 focus:ring-[#3a4fac]"
+                />
+              </div>
+            ))}
 
             <div className="text-center text-sm">
               <Link href="/" className="text-[#3a4fac] hover:underline">

@@ -1,20 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import api from '../lib/api';
 import { Postagem } from '../types/postagem';
-
+import { useRouter } from 'next/navigation';  
 
 export function usePostagens() {
-  const router = useRouter();
   const [postagens, setPostagens] = useState<Postagem[]>([]);
+  const router = useRouter();                  
+  const fetchPostagens = async () => {
+    const response = await api.get<Postagem[]>('/postagens/');
+    setPostagens(response.data);
+  };
 
   useEffect(() => {
-    api.get<Postagem[]>('/postagens/').then(response => {
-      setPostagens(response.data);
-    });
+    fetchPostagens();
   }, []);
 
   const handleDelete = async (id: number) => {
@@ -26,17 +27,26 @@ export function usePostagens() {
       confirmButtonText: 'Sim, excluir!',
       cancelButtonText: 'Cancelar',
     });
- 
+
     if (result.isConfirmed) {
-      api.delete(`/postagens/${id}`).then(() => {
-        setPostagens(postagensAtuais => postagensAtuais.filter(p => p.id !== id));
+      try {
+        await api.delete(`/postagens/${id}`);
+        setPostagens((postagensAtuais) =>
+          postagensAtuais.filter((p) => p.id !== id)
+        );
         Swal.fire('Excluído!', 'A postagem foi removida.', 'success');
-      });
+      } catch (error) {
+        Swal.fire('Erro', 'Falha ao excluir a postagem.', 'error');
+      }
     }
   };
 
-  const handleAdd = () => router.push('/postagens/cadastro'); 
-  const handleEdit = (id: number) => router.push(`/postagens/editar/${id}`);
-
-  return { postagens, handleDelete, handleAdd, handleEdit };
+  return {
+    postagens,
+    fetchPostagens,
+    handleDelete,
+    
+    handleAdd: () => router.push('/postagens/cadastro'),
+    handleEdit: (id: number) => router.push(`/postagens/editar/${id}`)
+  };
 }

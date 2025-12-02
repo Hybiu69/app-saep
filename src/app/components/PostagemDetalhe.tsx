@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaTrashAlt, FaEdit } from "react-icons/fa";
 import { AiOutlineSend } from "react-icons/ai";
 import Navbar from "./navbar";
-import { useFormularioPostagem } from "../hooks/useFormularioPostagem";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import api from "../lib/api";
 
 type Postagem = {
   id: string | number;
@@ -27,35 +29,52 @@ type Comentario = {
 };
 
 export default function PostagemDetalhe({ postagem }: { postagem: Postagem | null }) {
+  const router = useRouter();
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [mainImage, setMainImage] = useState<string>("");
   const [liked, setLiked] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number>(0);
   const [comments, setComments] = useState<Comentario[]>([]);
-  const { handleEdit, handleDelete } = useFormularioPostagem();
 
   useEffect(() => {
     if (postagem?.url) {
       setMainImage(postagem.url);
     }
+
     if (postagem) {
-      // Carregar comentários do localStorage
+     
       const storedComments = localStorage.getItem(`comments-${postagem.id}`);
       if (storedComments) {
         setComments(JSON.parse(storedComments));
       }
+
+      const storedLikes = JSON.parse(localStorage.getItem('likes') || '{}');
+      const postLikes = storedLikes[postagem.id] || 0;
+      setLikes(postLikes);
+
+      const likedStatus = storedLikes[postagem.id] > 0;
+      setLiked(likedStatus);
     }
   }, [postagem]);
 
-  if (!postagem) {
-    return (
-      <div className="flex justify-center items-center h-[60vh] text-gray-500 text-lg">
-        Postagem não encontrada 😢
-      </div>
-    );
-  }
+  const handleLike = () => {
+    if (!postagem) return;
 
-  const thumbnails = [postagem.url, postagem.url1, postagem.url2, postagem.url3].filter(Boolean) as string[];
+    const storedLikes = JSON.parse(localStorage.getItem('likes') || '{}');
+    const updatedLikes = { ...storedLikes };
+
+    if (liked) {
+      updatedLikes[postagem.id] = (updatedLikes[postagem.id] || 0) - 1;
+    } else {
+      updatedLikes[postagem.id] = (updatedLikes[postagem.id] || 0) + 1;
+    }
+
+    localStorage.setItem('likes', JSON.stringify(updatedLikes));
+
+    setLiked(!liked);
+    setLikes(updatedLikes[postagem.id]);
+  };
 
   const handleSendComment = () => {
     if (!comment || rating === 0) {
@@ -72,10 +91,47 @@ export default function PostagemDetalhe({ postagem }: { postagem: Postagem | nul
 
     const updatedComments = [...comments, newComment];
     setComments(updatedComments);
-    localStorage.setItem(`comments-${postagem.id}`, JSON.stringify(updatedComments));
+    localStorage.setItem(`comments-${postagem?.id}`, JSON.stringify(updatedComments));
     setComment("");
     setRating(0);
   };
+
+  const handleEdit = (id: string | number) => {
+    router.push(`/postagens/editar/${id}`);
+  };
+
+  const handleDelete = (id: string | number) => {
+    Swal.fire({
+      title: "Tem certeza?",
+      text: "Você não poderá reverter esta ação!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        api
+          .delete(`/postagens/${id}`)
+          .then(() => {
+            Swal.fire("Deletado!", "A postagem foi removida.", "success");
+            router.push("/homepage");
+          })
+          .catch(() => {
+            Swal.fire("Erro", "Não foi possível deletar a postagem.", "error");
+          });
+      }
+    });
+  };
+
+  if (!postagem) {
+    return (
+      <div className="flex justify-center items-center h-[60vh] text-gray-500 text-lg">
+        Postagem não encontrada 😢
+      </div>
+    );
+  }
+
+  const thumbnails = [postagem.url, postagem.url1, postagem.url2, postagem.url3].filter(Boolean) as string[];
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
@@ -129,13 +185,14 @@ export default function PostagemDetalhe({ postagem }: { postagem: Postagem | nul
                   {postagem.nome}
                 </h1>
 
-                <button onClick={() => setLiked(!liked)} className="transition-all">
+                <button onClick={handleLike} className="transition-all">
                   {liked ? (
                     <FaHeart className="text-[#2D95BB] text-2xl cursor-pointer transition-all" />
                   ) : (
                     <FaRegHeart className="text-gray-400 text-2xl cursor-pointer hover:text-[#2D95BB] transition-all" />
                   )}
                 </button>
+                <span>{likes} Likes</span>
               </div>
 
               {postagem.endereco && (
@@ -146,27 +203,7 @@ export default function PostagemDetalhe({ postagem }: { postagem: Postagem | nul
                 {postagem.conteudo}
               </p>
             </div>
-
-            <div className="flex gap-3 mt-4">
-              <button
-                onClick={() => handleEdit(postagem.id)}
-                className="flex items-center gap-2 px-4 py-2 bg-[#2D95BB] text-white rounded-xl hover:bg-[#217b99] transition-all"
-              >
-                <FaEdit />
-                Editar
-              </button>
-
-              <button
-                onClick={() => handleDelete(postagem.id)}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all"
-              >
-                <FaTrashAlt />
-                Deletar
-              </button>
-            </div>
-
-            <hr className="my-4" />
-
+            
             <div className="mt-2">
               <p className="text-gray-700 font-medium mb-2">Avalie aqui:</p>
               <div className="flex gap-2 mb-4">

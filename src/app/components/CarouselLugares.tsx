@@ -13,39 +13,34 @@ type Lugar = {
 export default function CarouselLugares({ lugares }: { lugares: Lugar[] }) {
   const [index, setIndex] = useState(0);
   const [likes, setLikes] = useState<{ [key: string]: number }>({});
+  const [filteredLugares, setFilteredLugares] = useState<Lugar[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    const saved = localStorage.getItem("likes_lugares");
-    if (saved) {
-      setLikes(JSON.parse(saved));
+    const storedLikes = localStorage.getItem('likes'); 
+    if (storedLikes) {
+      try {
+        const parsedLikes = JSON.parse(storedLikes);
+        setLikes(parsedLikes);
+        const filtered = lugares
+          .filter((lugar) => parsedLikes[lugar.id] && parsedLikes[lugar.id] > 0)
+          .sort((a, b) => parsedLikes[a.id] - parsedLikes[b.id]); 
+        setFilteredLugares(filtered);
+      } catch (error) {
+        console.error('Erro ao carregar likes do localStorage:', error);
+        setFilteredLugares([]);
+      }
     } else {
-      const initial = lugares.reduce((acc, obj) => {
-        acc[obj.id] = 0;
-        return acc;
-      }, {} as { [key: string]: number });
-      setLikes(initial);
+      setFilteredLugares([]);
     }
   }, [lugares]);
 
-  useEffect(() => {
-    localStorage.setItem("likes_lugares", JSON.stringify(likes));
-  }, [likes]);
+  const total = filteredLugares.length;
 
-  if (!lugares || lugares.length === 0)
-    return (
-      <div className="text-center py-12 text-gray-500">
-        Nenhum lugar cadastrado ainda.
-      </div>
-    );
-
-  const total = lugares.length;
-
-  // ✅ Função corrigida: evita duplicatas no "visible"
   const getVisible = () => {
     const items: Lugar[] = [];
     for (let i = 0; i < Math.min(4, total); i++) {
-      const item = lugares[(index + i) % total];
+      const item = filteredLugares[(index + i) % total];
       if (!items.some((x) => x.id === item.id)) items.push(item);
     }
     return items;
@@ -58,10 +53,9 @@ export default function CarouselLugares({ lugares }: { lugares: Lugar[] }) {
 
   const next = () => setIndex((prev) => (prev + 1) % total);
 
-  const handleLike = (id: string | number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLikes((p) => ({ ...p, [id]: (p[id] || 0) + 1 }));
-  };
+  if (total === 0) {
+    return null;
+  }
 
   return (
     <div className="relative w-full flex justify-center py-10">
@@ -75,7 +69,7 @@ export default function CarouselLugares({ lugares }: { lugares: Lugar[] }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-[90%] max-w-7xl">
         {visible.map((lugar) => (
           <div
-            key={lugar.id} // ✅ Agora garantidamente único
+            key={lugar.id}
             onClick={() => router.push(`/postagem/${lugar.id}`)}
             className="cursor-pointer bg-white shadow-lg rounded-lg overflow-hidden relative hover:scale-[1.02] transition-transform"
           >
@@ -86,22 +80,12 @@ export default function CarouselLugares({ lugares }: { lugares: Lugar[] }) {
                 className="w-full h-full object-cover"
               />
 
-              <button
-                onClick={(e) => handleLike(lugar.id, e)}
-                className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 hover:scale-110 transition shadow-md"
-              >
-                <span
-                  className="text-xl font-bold transition-colors duration-500"
-                  style={{
-                    color: likes[lugar.id] > 0 ? "#2D95BB" : "#9ca3af",
-                  }}
-                >
-                  ♥
-                </span>
+              <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 shadow-md">
+                <span className="text-xl font-bold text-[#2D95BB]">♥</span>
                 <span className="text-[#2D95BB] font-semibold text-sm">
-                  {likes[lugar.id] || 0}
+                  {likes[lugar.id]}
                 </span>
-              </button>
+              </div>
             </div>
 
             <div className="p-4 text-center">

@@ -1,6 +1,7 @@
 import "./globals.css";
 import { League_Spartan, League_Gothic} from "next/font/google";
 
+
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -23,7 +24,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-br"  className={`${leagueSpartan.className} ${LeagueGothic.variable}`}>
-      <body>{children}</body>
+      <body>
+          {children}
+        </body>
     </html>
   );
 }
